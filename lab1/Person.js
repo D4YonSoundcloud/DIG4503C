@@ -3,8 +3,10 @@ export default class Person {
         this.name = name;
         this.words = words;
     }
-    speak = ( words ) => {
-        return console.log(words)
+    speak = ( index ) => {
+        return console.log(
+            `< ---- ${this.name} ---- : "${this.words[index]}" `
+        )
     }
 }
 
