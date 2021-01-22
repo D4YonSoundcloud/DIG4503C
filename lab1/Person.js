@@ -1,12 +1,13 @@
+import chalk from 'chalk'
+
 export default class Person {
-    constructor(name, words){
+    constructor(name, words, favoriteColor){
         this.name = name;
         this.words = words;
+        this.favoriteColor = favoriteColor;
     }
-    speak = ( index ) => {
-        return console.log(
-            `< ---- ${this.name} ---- : "${this.words[index]}" `
-        )
+    speak = ( ) => {
+        return console.log(chalk[`${this.favoriteColor}`](this.words))
     }
 }
 
