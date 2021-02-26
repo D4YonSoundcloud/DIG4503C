@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LAB 6</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        margin-top: 2.5%;
+        flex-flow: column;
+        align-items: center;
+        font-family: 'DotGothic16', sans-serif;
+    }
+    button{
+        height: 40px;
+        width: 100px;
+        margin-bottom: 1.25%;
+        font-family: 'DotGothic16', sans-serif;
+        padding: 0.5% 0.25%;
+    }
+    p{
+        margin-top: 1.25%;
+        margin-bottom: 1.25%;
+    }
+    .info{
+        margin-top: 0.5%;
+        margin-bottom: 0.5%;
+    }
+</style>
+<body>
+    <p>Ello! I'm a big fan of Express and Node</p>
+    <button id="get-request-btn"> GET REQUEST</button>
+    <p class="info" id="fav-lang-p"></p>
+    <p class="info" id="fav-framework-p"></p>
+    <p class="info" id="fav-back-lang-p"></p>
+    <p class="info" id="fav-back-framework-p"></p>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const button = document.getElementById('get-request-btn')
+        const favLang = document.getElementById('fav-lang-p')
+        const favFramework = document.getElementById('fav-framework-p')
+        const favBackLang = document.getElementById('fav-back-lang-p')
+        const favBackFramework = document.getElementById('fav-back-framework-p')
+        button.addEventListener('click', () => {
+        	axios.get('http://localhost:3030/info').then((response) => {
+        		console.log(response.data)
+                favLang.innerText = response.data.favoriteLanguage;
+        		favFramework.innerText = response.data.favoriteFramework;
+        		favBackLang.innerText = response.data.favoriteBackendLanguage;
+        		favBackFramework.innerText = response.data.favoriteBackendFramework;
+            })
+        })
+    </script>
+</body>
+</html>
