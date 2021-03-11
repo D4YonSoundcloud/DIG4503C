@@ -1,6 +1,6 @@
 import Express from 'express';
 const App = Express();
-const port = 3002;
+const port = 45030;
 
 const names = [
 	'Cortney',
@@ -32,7 +32,7 @@ App.get('/search/:name', (req,res) => {
 	if (result != 0) {
 		res.json({ search: result})
 	} else {
-		res.json({ search: "Not available"})
+		res.json({ search: "Not Found"})
 	}
 })
 
