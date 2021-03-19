@@ -1,0 +1,27 @@
+[
+  {
+    "name" :  "Angela" ,
+    "age" : 45,
+    "skill": "Vue"
+  },
+  {
+    "name" :  "Michael" ,
+    "age" : 50,
+    "skill": "React"
+  },
+  {
+    "name" :  "Jim" ,
+    "age" : 36,
+    "skill": "Angular"
+  },
+  {
+    "name" :  "Kelly" ,
+    "age" : 25,
+    "skill": "HTML"
+  },
+  {
+    "name" :  "Ryan" ,
+    "age" : 28,
+    "skill": "COBOL"
+  }
+]
