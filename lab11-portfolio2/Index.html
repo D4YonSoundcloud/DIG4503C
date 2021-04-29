@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Title</title>
+</head>
+<style>
+    html{
+        overflow-y: hidden;
+    }
+    body{
+        overflow-y: hidden;
+        height: 100vh;
+        width: 100vw;
+    }
+    #app{
+
+    }
+    h3{
+        text-align: center
+    }
+</style>
+<body>
+<div id="app">
+    <v-app>
+        <v-main>
+<!--            main container  -->
+            <v-container class="d-flex flex-column justify-center align-center">
+                <h1>Kendama Trick Giver 8000</h1>
+
+                <v-spacer></v-spacer>
+<!--                options select  -->
+                <v-sheet width="100%" class="my-8">
+
+                    <h3>TAMA OR KEN TRICK?</h3>
+                    <v-sheet class="d-flex flex-row justify-center align-center mb-8" width="100%">
+                        <v-card elevation="2" tile class="pa-2 ma-2" @click="setGrip('tama')" width="200px" height="100px"
+                                :color="grip === 'tama' ? 'rgb(0,128,0)' : 'rgb(255,255,255)'" :ripple="false">
+                            <v-card-title :style="grip === 'tama' ? {color: 'rgb(255,255,255)'} : {color:'rgb(20,20,20)'}">
+                                TAMA
+                            </v-card-title>
+                        </v-card>
+                        <v-card elevation="2" tile class="pa-2 ma-2" @click="setGrip('ken')" width="200px" height="100px"
+                                :color="grip === 'ken' ? 'rgb(0,128,0)' : 'rgb(255,255,255)'" :ripple="false">
+                            <v-card-title :style="grip === 'ken' ? {color: 'rgb(255,255,255)'} : {color:'rgb(20,20,20)'}">
+                                KEN
+                            </v-card-title>
+                        </v-card>
+                        <v-card elevation="2" tile class="pa-2 ma-2" @click="setGrip('all')" width="200px" height="100px"
+                                :color="grip === 'all' ? 'rgb(0,128,0)' : 'rgb(255,255,255)'" :ripple="false">
+                            <v-card-title :style="grip === 'all' ? {color: 'rgb(255,255,255)'} : {color:'rgb(20,20,20)'}">
+                                ALL
+                            </v-card-title>
+                        </v-card>
+                    </v-sheet>
+
+                    <h3 v-if="grip !== ''"> Trick Level? </h3>
+                    <v-sheet v-if="grip !== ''" class="d-flex flex-row justify-center align-center mb-8" width="100%">
+                        <v-sheet width="25%">
+                            <v-select :items="levelsArray" :hide-details="true"
+                                      v-model="selectedLevel" dense outlined label="trick level">
+                            </v-select>
+                        </v-sheet>
+                    </v-sheet>
+
+                    <v-sheet v-if="selectedLevel !== null" class="d-flex flex-row justify-center align-center" width="100%">
+                        <v-btn elevation="2" x-large color="rgb(0,128,0)" style="color: white" @click="getTrick()">
+                            GET TRICK
+                        </v-btn>
+                    </v-sheet>
+
+                </v-sheet>
+
+                <v-sheet width="100%" class="my-8" v-if="trickLoading === true">
+                    <v-sheet class="d-flex flex-column justify-center align-center mb-8" width="100%">
+                        <v-progress-circular indeterminate color="green" class="mb-4"></v-progress-circular>
+                        Fetching your {{selectedTrick === null ? '' : 'new'}} trick (it might take a few seconds)
+                    </v-sheet>
+                </v-sheet>
+
+<!--            generated tricks container  -->
+                <v-sheet width="100%" class="my-8" v-if="selectedTrick !== null">
+                    <v-sheet class="d-flex flex-row justify-center align-center mb-8" width="100%">
+                        <v-card elevation="2" tile class="pa-2 ma-2" width="400px" height="125px">
+                            <v-card-title> {{ (selectedTrick.name).toUpperCase() }} </v-card-title>
+                            <v-card-subtitle> grip: {{ selectedTrick.grip }}</v-card-subtitle>
+                            <v-card-text> level: {{ selectedTrick.level }}</v-card-text>
+                        </v-card>
+                    </v-sheet>
+                </v-sheet>
+
+            </v-container>
+        </v-main>
+    </v-app>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+<script>
+	let app = new Vue({
+		el: '#app',
+		vuetify: new Vuetify(),
+		data: {
+			grip: '',
+            selectedLevel: null,
+            levelsArray: [0,1,2],
+            trickLoading: false,
+            selectedTrick: null,
+		},
+        methods:{
+			setGrip(grip){
+                this.grip = grip;
+            },
+            getTrick(){
+				this.trickLoading = true;
+				console.log(this.selectedLevel);
+				if(this.grip === 'all') {
+					axios(`http://localhost:3333/level/${this.selectedLevel}`).then((result) => {
+						let randomNumber = Math.floor(Math.random() * result.data.length - 1) + 1
+						let tricks = result.data
+						this.trickLoading = false;
+						this.selectedTrick = tricks[randomNumber]
+						console.log(tricks[randomNumber], tricks, this.selectedTrick);
+					}).catch((err) => { console.log('Error:' + err.response) })
+                } else {
+					axios(`http://localhost:3333/level/${this.selectedLevel}/grip/${this.grip}`).then((result) => {
+						let randomNumber = Math.floor(Math.random() * result.data.length - 1) + 1
+						let tricks = result.data
+						this.trickLoading = false;
+						this.selectedTrick = tricks[randomNumber]
+						console.log(tricks[randomNumber], tricks, this.selectedTrick);
+					}).catch((err) => { console.log('Error:' + err.response) })
+                }
+            }
+        }
+	})
+
+    const getLevel = () => {
+	    axios(`http://localhost:3333/level/${1}`).then((result) => {
+		    let tricks = result.data
+            console.log(tricks);
+	    }).catch((err) => { console.log('Error:' + err.response) })
+    }
+
+    getLevel();
+</script>
+</body>
+</html>

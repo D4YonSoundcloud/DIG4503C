@@ -1,0 +1,10 @@
+{
+  "airplane": { "name": "airplane", "level": 1, "grip": "tama" },
+  "pull-up lighthouse": { "name": "pull-up lighthouse", "level": 1, "grip": "tama" },
+  "j-stick": { "name": "j-stick", "level": 1, "grip": "tama" },
+  "1-turn airplane": { "name": "1-turn airplane", "level": 2, "grip": "tama" },
+  "big cup": { "name": "big cup", "level": 0, "grip": "ken" },
+  "small cup": { "name": "small cup", "level": 0, "grip": "ken" },
+  "base cup": { "name": "base cup", "level": 0, "grip": "ken" },
+  "pull-up spike": { "name": "pull-up spike", "level": 1, "grip": "ken" }
+}
