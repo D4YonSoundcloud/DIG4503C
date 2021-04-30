@@ -1,10 +1,26 @@
 {
-  "airplane": { "name": "airplane", "level": 1, "grip": "tama" },
+  "airplane": { "name": "airplane", "level": 0, "grip": "tama" },
   "pull-up lighthouse": { "name": "pull-up lighthouse", "level": 1, "grip": "tama" },
   "j-stick": { "name": "j-stick", "level": 1, "grip": "tama" },
+  "double j-stick": { "name": "double j-stick", "level": 2, "grip": "tama" },
+  "j-stick tap in": { "name": "j-stick tap in", "level": 2, "grip": "tama" },
   "1-turn airplane": { "name": "1-turn airplane", "level": 2, "grip": "tama" },
+  "1-turn lighthouse": { "name": "1-turn lighthouse", "level": 2, "grip": "tama" },
+  "Lunar-in": { "name": "Lunar-in", "level": 2, "grip": "tama" },
+  "airplane fast-hands": { "name": "airplane fast-hands", "level": 3, "grip": "tama" },
+  "1-turn lighthouse, 1 turn in": { "name": "1-turn lighthouse, 1 turn in", "level": 3, "grip": "tama" },
+  "Lunar 1-turn in": { "name": "Lunar 1-turn in", "level": 3, "grip": "tama" },
   "big cup": { "name": "big cup", "level": 0, "grip": "ken" },
   "small cup": { "name": "small cup", "level": 0, "grip": "ken" },
   "base cup": { "name": "base cup", "level": 0, "grip": "ken" },
-  "pull-up spike": { "name": "pull-up spike", "level": 1, "grip": "ken" }
+  "pull-up spike": { "name": "pull-up spike", "level": 1, "grip": "ken" },
+  "pull-up kenflip spike": { "name": "pull-up kenflip spike", "level": 1, "grip": "ken" },
+  "pull-up gunslinger spike": { "name": "pull-up gunslinger spike", "level": 1, "grip": "ken" },
+  "around the world": { "name": "around the world", "level": 2, "grip": "ken" },
+  "around japan": { "name": "around japan", "level": 1, "grip": "ken" },
+  "moshi-moshi x10": { "name": "moshi-moshi x10", "level": 1, "grip": "ken" },
+  "candle-stick around the world": { "name": "candle-stick around the world", "level": 2, "grip": "ken" },
+  "juggle to big cup": { "name": "juggle to big cup", "level": 3, "grip": "ken" },
+  "double ken-flip to big cup": { "name": "double ken-flip to big cup", "level": 3, "grip": "ken" },
+  "gunslinger kenflip to big cup": { "name": "gunslinger kenflip to big cup", "level": 3, "grip": "ken" }
 }

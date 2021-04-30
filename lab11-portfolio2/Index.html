@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <title>Title</title>
+    <title>KTG8k</title>
 </head>
+<!--basic styling-->
 <style>
     html{
         overflow-y: hidden;
@@ -17,47 +17,58 @@
         height: 100vh;
         width: 100vw;
     }
-    #app{
-
-    }
     h3{
         text-align: center
+    }
+    strong{
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+    strong:hover{
+        opacity: 1;
+        transform: scale(1.1)
     }
 </style>
 <body>
 <div id="app">
     <v-app>
         <v-main>
-<!--            main container  -->
+            <!--main container  -->
             <v-container class="d-flex flex-column justify-center align-center">
                 <h1>Kendama Trick Giver 8000</h1>
 
                 <v-spacer></v-spacer>
-<!--                options select  -->
+                <!--options select  -->
                 <v-sheet width="100%" class="my-8">
-
-                    <h3>TAMA OR KEN TRICK?</h3>
+                    <h3>TAMA <img style="transform: translateY(2px)" src="./assets/Tama-Svg.svg" alt="Tama">
+                        OR
+                        KEN <img style="transform: translateY(2px)" class="mt-2" src="./assets/ken-svg.svg" alt="Ken">
+                        TRICK?</h3>
                     <v-sheet class="d-flex flex-row justify-center align-center mb-8" width="100%">
                         <v-card elevation="2" tile class="pa-2 ma-2" @click="setGrip('tama')" width="200px" height="100px"
                                 :color="grip === 'tama' ? 'rgb(0,128,0)' : 'rgb(255,255,255)'" :ripple="false">
-                            <v-card-title :style="grip === 'tama' ? {color: 'rgb(255,255,255)'} : {color:'rgb(20,20,20)'}">
+                            <v-card-title class="pa-2" :style="grip === 'tama' ? {color: 'rgb(255,255,255)'} : {color:'rgb(20,20,20)'}">
                                 TAMA
                             </v-card-title>
+                            <img class="ml-4 mb-4" src="./assets/Tama-Svg.svg" alt="Tama">
                         </v-card>
                         <v-card elevation="2" tile class="pa-2 ma-2" @click="setGrip('ken')" width="200px" height="100px"
                                 :color="grip === 'ken' ? 'rgb(0,128,0)' : 'rgb(255,255,255)'" :ripple="false">
-                            <v-card-title :style="grip === 'ken' ? {color: 'rgb(255,255,255)'} : {color:'rgb(20,20,20)'}">
+                            <v-card-title class="pa-2" :style="grip === 'ken' ? {color: 'rgb(255,255,255)'} : {color:'rgb(20,20,20)'}">
                                 KEN
                             </v-card-title>
+                            <img class="ml-4 mb-4" src="./assets/ken-svg.svg" alt="Ken">
                         </v-card>
                         <v-card elevation="2" tile class="pa-2 ma-2" @click="setGrip('all')" width="200px" height="100px"
                                 :color="grip === 'all' ? 'rgb(0,128,0)' : 'rgb(255,255,255)'" :ripple="false">
-                            <v-card-title :style="grip === 'all' ? {color: 'rgb(255,255,255)'} : {color:'rgb(20,20,20)'}">
+                            <v-card-title class="pa-2" :style="grip === 'all' ? {color: 'rgb(255,255,255)'} : {color:'rgb(20,20,20)'}">
                                 ALL
                             </v-card-title>
+                            <img class="ml-4 mb-4" src="./assets/Kendama-Svg.svg" alt="Ken">
                         </v-card>
                     </v-sheet>
 
+                    <!--trick level-->
                     <h3 v-if="grip !== ''"> Trick Level? </h3>
                     <v-sheet v-if="grip !== ''" class="d-flex flex-row justify-center align-center mb-8" width="100%">
                         <v-sheet width="25%">
@@ -67,86 +78,113 @@
                         </v-sheet>
                     </v-sheet>
 
+                    <!--get trick button-->
                     <v-sheet v-if="selectedLevel !== null" class="d-flex flex-row justify-center align-center" width="100%">
                         <v-btn elevation="2" x-large color="rgb(0,128,0)" style="color: white" @click="getTrick()">
                             GET TRICK
                         </v-btn>
                     </v-sheet>
-
                 </v-sheet>
 
+                <!--loader -->
                 <v-sheet width="100%" class="my-8" v-if="trickLoading === true">
                     <v-sheet class="d-flex flex-column justify-center align-center mb-8" width="100%">
                         <v-progress-circular indeterminate color="green" class="mb-4"></v-progress-circular>
+                        <!-- ternary operator for the loading text, based on if we already have a trick selected-->
                         Fetching your {{selectedTrick === null ? '' : 'new'}} trick (it might take a few seconds)
                     </v-sheet>
                 </v-sheet>
 
-<!--            generated tricks container  -->
+                <!--generated tricks container  -->
                 <v-sheet width="100%" class="my-8" v-if="selectedTrick !== null">
                     <v-sheet class="d-flex flex-row justify-center align-center mb-8" width="100%">
                         <v-card elevation="2" tile class="pa-2 ma-2" width="400px" height="125px">
                             <v-card-title> {{ (selectedTrick.name).toUpperCase() }} </v-card-title>
-                            <v-card-subtitle> grip: {{ selectedTrick.grip }}</v-card-subtitle>
+                            <v-card-subtitle> grip: {{ selectedTrick.grip }}
+                                <img v-if="selectedTrick.grip === 'tama'" style="transform: translateY(4px); margin-left: 2px" src="./assets/Tama-Svg.svg" alt="Tama">
+                                <img v-if="selectedTrick.grip === 'ken'" style="transform: translateY(4px); margin-left: 2px" src="./assets/ken-svg.svg" alt="Ken">
+                            </v-card-subtitle>
                             <v-card-text> level: {{ selectedTrick.level }}</v-card-text>
                         </v-card>
                     </v-sheet>
                 </v-sheet>
 
+                <!--footer -->
+                <v-sheet :style="footerStyle">
+                    <p style="text-align: center"> Created by
+                        <strong style="color: green; opacity: 0.75" @click="goToGithub()">Matt Day</strong>
+                    </p>
+                </v-sheet>
             </v-container>
         </v-main>
     </v-app>
 </div>
+<!--import Vue (for easy development), Vuetify (for easy material UI), and Axios (so we don't have to use the native Fetch Methods)-->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
 <script>
+	/**
+     * Vue instance
+	 */
 	let app = new Vue({
+        //attach to our dom element we want to use vue in
 		el: '#app',
+        //add vuetify to our Vue instance
 		vuetify: new Vuetify(),
+        //define the data variables we want to use in our template (HTML)
 		data: {
 			grip: '',
             selectedLevel: null,
-            levelsArray: [0,1,2],
+            levelsArray: [0,1,2,3],
             trickLoading: false,
             selectedTrick: null,
+            //style for the footer so we can do an easy inline style
+            footerStyle:{
+				'position': 'absolute',
+                'bottom': 0,
+                'width': 100 + '%',
+                'height': 50 + 'px',
+            }
 		},
-        methods:{
+		//Functions or "methods" that belong to our Vue instance
+		methods:{
+			//simply sets the grip to whatever was passed in
 			setGrip(grip){
                 this.grip = grip;
             },
+            //The main function, it gets our trick from our custom made MongoDB Collection
             getTrick(){
+				//set to true so that the loader will show
 				this.trickLoading = true;
-				console.log(this.selectedLevel);
+				//if the grip is all, then just worry about the selected level, not the grip
 				if(this.grip === 'all') {
 					axios(`http://localhost:3333/level/${this.selectedLevel}`).then((result) => {
+						//get random number from 0 to the last index of the returned tricks
 						let randomNumber = Math.floor(Math.random() * result.data.length - 1) + 1
+                        //create a tricks variable to assign the data to
 						let tricks = result.data
+                        //set tricksLoading back to false so the loader will go away, since we have a trick
 						this.trickLoading = false;
+						//use the random number as the index on our tricks array, and assign it to the selected trick
 						this.selectedTrick = tricks[randomNumber]
-						console.log(tricks[randomNumber], tricks, this.selectedTrick);
 					}).catch((err) => { console.log('Error:' + err.response) })
+                //if the grip is NOT all, then send the GET request with both the selected level and the selected grip
                 } else {
 					axios(`http://localhost:3333/level/${this.selectedLevel}/grip/${this.grip}`).then((result) => {
 						let randomNumber = Math.floor(Math.random() * result.data.length - 1) + 1
 						let tricks = result.data
 						this.trickLoading = false;
 						this.selectedTrick = tricks[randomNumber]
-						console.log(tricks[randomNumber], tricks, this.selectedTrick);
 					}).catch((err) => { console.log('Error:' + err.response) })
                 }
+            },
+            //function that just goes to my github, called when a user clicks on "matt day" in the footer
+            goToGithub(){
+	            window.location.href = 'https://github.com/D4YonSoundcloud/DIG4503C/tree/main/lab11-portfolio2';
             }
         }
 	})
-
-    const getLevel = () => {
-	    axios(`http://localhost:3333/level/${1}`).then((result) => {
-		    let tricks = result.data
-            console.log(tricks);
-	    }).catch((err) => { console.log('Error:' + err.response) })
-    }
-
-    getLevel();
 </script>
 </body>
 </html>
